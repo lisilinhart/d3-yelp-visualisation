@@ -1,11 +1,3 @@
-# system
-.DS_Store
-
-# IDE
-.idea/
-
-# node.js
 node_modules/
-
-# build
-dist/
+.tmp/
+public/
