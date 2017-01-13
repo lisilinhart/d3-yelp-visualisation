@@ -25,16 +25,15 @@ export default class BarChart {
   }
 
   createBars() {
-
-
     d3.tsv(this.file, (d) => {
-      d.count = +d.count;
-      return d;
+      const data = d;
+      data.count = +data.count;
+      return data;
     }, (error, data) => {
       if (error) throw error;
 
       data = data.slice(1, 10);
-      let height = this.height;
+      const height = this.height;
 
       const xScale = d3.scaleBand()
         .rangeRound([0, this.width]).padding(0.5)
@@ -45,7 +44,7 @@ export default class BarChart {
       const colorScale = d3.scaleLinear()
         .domain([0, d3.max(data, d => d.count)])
         .interpolate(d3.interpolateHcl)
-        .range([d3.rgb("#64b5f6"), d3.rgb('#0d47a1')]);
+        .range([d3.rgb('#64b5f6'), d3.rgb('#0d47a1')]);
 
       const chartBars = this.chart.selectAll('.bar')
         .data(data)
@@ -56,6 +55,6 @@ export default class BarChart {
         .attr('y', d => yScale(d.count))
         .attr('width', xScale.bandwidth())
         .attr('height', d => height - yScale(d.count));
-      });
-      }
-    }
+    });
+  }
+}

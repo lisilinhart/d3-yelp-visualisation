@@ -10,22 +10,23 @@ class Application {
     this.navigation = new Navigation();
     this.width = window.innerWidth;
     this.height = window.innerHeight;
-    this.container = document.querySelector("#app");
+    this.container = document.querySelector('#app');
     this.initCharts();
   }
 
   initCharts() {
     this.barChart = new BarChart({
-                        file: 'edinburgh_review',
-                        container: this.container,
-                        width: parseInt(this.width / 2),
-                        height: parseInt(this.height / 2),
-                        data: {
-                          0: {count: 5}, 
-                          1: {count:7}, 
-                          2: {count: 3}, 
-                          3: {count: 10}}
-                      });
+      file: 'edinburgh_review',
+      container: this.container,
+      width: parseInt(this.width / 2),
+      height: parseInt(this.height / 2),
+      data: {
+        0: { count: 5 },
+        1: { count: 7 },
+        2: { count: 3 },
+        3: { count: 10 }
+      }
+    });
   }
 }
 
