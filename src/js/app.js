@@ -3,6 +3,7 @@ import * as d3 from 'd3';
 import Navigation from './components/navigation';
 
 import BarChart from './components/bar-chart';
+import WordCloud from './components/word-cloud';
 
 class Application {
   constructor(options) {
@@ -15,7 +16,20 @@ class Application {
   }
 
   initCharts() {
-    this.barChart = new BarChart({
+    // this.barChart = new BarChart({
+    //   file: 'edinburgh_review',
+    //   container: this.container,
+    //   width: parseInt(this.width / 2),
+    //   height: parseInt(this.height / 2),
+    //   data: {
+    //     0: { count: 5 },
+    //     1: { count: 7 },
+    //     2: { count: 3 },
+    //     3: { count: 10 }
+    //   }
+    // });
+
+    this.wordCloud = new WordCloud({
       file: 'edinburgh_review',
       container: this.container,
       width: parseInt(this.width / 2),

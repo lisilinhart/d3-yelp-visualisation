@@ -1488,6 +1488,12 @@ d3-chord@1.0.3:
     d3-array "1"
     d3-path "1"
 
+d3-cloud@^1.2.4:
+  version "1.2.4"
+  resolved "https://registry.yarnpkg.com/d3-cloud/-/d3-cloud-1.2.4.tgz#3e169403adab74fdb0c867638d7f0bb8e6ae71ff"
+  dependencies:
+    d3-dispatch "1"
+
 d3-collection@1, d3-collection@1.0.2:
   version "1.0.2"
   resolved "https://registry.yarnpkg.com/d3-collection/-/d3-collection-1.0.2.tgz#df5acb5400443e9eabe9c1379896c67e52426b39"
