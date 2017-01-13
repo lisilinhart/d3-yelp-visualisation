@@ -1,10 +1,11 @@
 import * as d3 from 'd3';
 
 export default class BarChart {
-  constructor({ data, container, width, height, file }) {
+  constructor({ data, container, width, height, city, colors }) {
     console.log('----- Bar Chart Init -----');
-    this.file = `../data/${file}.csv`;
+    this.file = `../data/${city}_categories_reviews.csv`;
     this.data = data;
+    this.colors = colors;
     this.container = container;
     this.width = width;
     this.height = height;
@@ -22,6 +23,13 @@ export default class BarChart {
       .append('svg')
       .attr('width', this.width)
       .attr('height', this.height);
+    window.emitter.on('updateCharts', this.updateData.bind(this));
+  }
+
+  updateData(city) {
+    this.file = `../data/${city}_categories_reviews.csv`;
+    this.chart.selectAll('.bar').remove();
+    this.createBars();
   }
 
   createBars() {
@@ -32,29 +40,41 @@ export default class BarChart {
     }, (error, data) => {
       if (error) throw error;
 
-      data = data.slice(1, 10);
+      data = data.slice(1, 20);
       const height = this.height;
+      const maxValue = d3.max(data, d => d.count);
 
       const xScale = d3.scaleBand()
         .rangeRound([0, this.width]).padding(0.5)
-        .domain(data.map(d => d.name));
+        .domain(data.map(d => d.categories));
+
       const yScale = d3.scaleLinear()
         .rangeRound([this.height, 0])
-        .domain([0, d3.max(data, d => d.count)]);
+        .domain([maxValue, 0]);
+
       const colorScale = d3.scaleLinear()
-        .domain([0, d3.max(data, d => d.count)])
+        .domain([0, maxValue * 0.25, maxValue * 0.5, maxValue * 0.75, maxValue])
         .interpolate(d3.interpolateHcl)
-        .range([d3.rgb('#64b5f6'), d3.rgb('#0d47a1')]);
+          .range([d3.rgb(this.colors[0]),
+            d3.rgb(this.colors[1]),
+            d3.rgb(this.colors[2]),
+            d3.rgb(this.colors[3]),
+            d3.rgb(this.colors[4]),
+          ]);
 
       const chartBars = this.chart.selectAll('.bar')
         .data(data)
         .enter().append('rect')
         .attr('class', 'bar')
-        .attr('fill', (d, i) => colorScale(i))
-        .attr('x', d => xScale(d.name))
-        .attr('y', d => yScale(d.count))
+        .attr('y', d => height + yScale(d.count))
+        .attr('fill', (d, i) => colorScale(d.count))
+        .attr('x', d => xScale(d.categories))
         .attr('width', xScale.bandwidth())
-        .attr('height', d => height - yScale(d.count));
+        .transition()
+          .duration(1000)
+          .delay((d, i) => i * 15)
+          .attr('height', d => yScale(d.count))
+          .attr('y', d => height - yScale(d.count));
     });
   }
 }
