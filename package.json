@@ -13,7 +13,8 @@
     "bootstrap": "4.0.0-alpha.5",
     "d3": "^4.4.1",
     "d3-cloud": "^1.2.4",
-    "sass-mq": "^3.2.3"
+    "sass-mq": "^3.2.3",
+    "tiny-emitter": "^1.1.0"
   },
   "devDependencies": {
     "babel-cli": "^6.18.0",
