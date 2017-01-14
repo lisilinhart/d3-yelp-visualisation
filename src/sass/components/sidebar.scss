@@ -10,8 +10,9 @@
     text-transform: uppercase;
     line-height: 1.3em;
     font-weight: 500;
-    
-    span{
+    font-size: 3.4rem;
+
+    span {
       color: nth($color-list, 3);
       padding-left: 14px;
     }
@@ -19,6 +20,7 @@
 
   &__navigation {
     width: 100%;
+    max-width: 180px;
   }
 
   &__item {

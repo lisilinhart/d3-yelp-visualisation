@@ -20,8 +20,7 @@ export default class BarChart {
   init() {
     this.chart = d3.select(this.container)
       .append('svg')
-      .attr('width', this.width)
-      .attr('height', this.height);
+      .attr('viewBox', `0 0 ${this.width} ${this.height}`);
     window.emitter.on('updateCharts', this.updateData.bind(this));
   }
 
@@ -41,14 +40,15 @@ export default class BarChart {
 
       data = data.slice(0, 10);
       const height = this.height;
+      const width = this.width;
       const maxValue = d3.max(data, d => d.count);
 
       const xScale = d3.scaleBand()
-        .rangeRound([0, this.width]).padding(0.5)
+        .rangeRound([0, width]).padding(0.5)
         .domain(data.map(d => d.categories));
 
       const yScale = d3.scaleLinear()
-        .rangeRound([this.height, 0])
+        .rangeRound([height, 0])
         .domain([maxValue, 0]);
 
       const colorScale = d3.scaleLinear()

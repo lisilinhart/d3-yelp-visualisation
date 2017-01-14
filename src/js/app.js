@@ -23,23 +23,21 @@ class Application {
   }
 
   initCharts() {
-
     this.barChart = new BarChart({
       city: 'edinburgh',
-      container: this.container,
+      container: this.container.querySelector('.bar-chart'),
       colors: this.colors,
-      width: this.width / 2,
+      width: this.width / 3,
       height: this.height / 2,
     });
 
     this.wordCloud = new WordCloud({
       file: 'edinburgh_review',
-      container: this.container,
+      container: this.container.querySelector('.word-cloud'),
       colors: this.colors,
-      width: this.width / 2,
+      width: this.width / 3,
       height: this.height / 2,
     });
-
   }
 }
 
