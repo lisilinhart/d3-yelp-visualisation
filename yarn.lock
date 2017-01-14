@@ -1425,7 +1425,7 @@ d@^0.1.1, d@~0.1.1:
   dependencies:
     es5-ext "~0.10.2"
 
-d3:
+d3, d3@^4.2:
   version "4.4.1"
   resolved "https://registry.yarnpkg.com/d3/-/d3-4.4.1.tgz#2cbb08f92970364076ffe91ab83ef66b80610785"
   dependencies:
@@ -1615,6 +1615,12 @@ d3-time@1, d3-time@1.0.4:
 d3-timer@1, d3-timer@1.0.3:
   version "1.0.3"
   resolved "https://registry.yarnpkg.com/d3-timer/-/d3-timer-1.0.3.tgz#7a308a10c8524778e6b32d1d6c1c329209ae0ebf"
+
+d3-tip:
+  version "0.7.1"
+  resolved "https://registry.yarnpkg.com/d3-tip/-/d3-tip-0.7.1.tgz#78cbf554f67b720a70e3b0f191e14cffe68cdd79"
+  dependencies:
+    d3 "^4.2"
 
 d3-transition@1, d3-transition@1.0.3:
   version "1.0.3"

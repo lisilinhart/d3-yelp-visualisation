@@ -27,7 +27,7 @@ class Application {
       city: 'edinburgh',
       container: this.container.querySelector('.bar-chart'),
       colors: this.colors,
-      width: this.width / 3,
+      width: this.width / 2,
       height: this.height / 2,
     });
 
@@ -35,7 +35,7 @@ class Application {
       file: 'edinburgh_review',
       container: this.container.querySelector('.word-cloud'),
       colors: this.colors,
-      width: this.width / 3,
+      width: this.width / 2,
       height: this.height / 2,
     });
   }
