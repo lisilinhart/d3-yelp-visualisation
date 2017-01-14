@@ -5,6 +5,19 @@ $grid-breakpoints: (
   lg: 992px,
   xl: 1200px
 );
+$enable-flex: true;
+
+// colors
+$color-list: #364958, #3B6064, #55828B, #87BBA2, #C9E4CA;
+
+// fonts
+$font-family-base: 'Fira Sans Extra Condensed',Futura,"Trebuchet MS",Arial,sans-serif;
+
+// links
+$link-color:            #fff;
+$link-hover-color:      $link-color;
+$link-hover-decoration: none;
+
 
 // sass-mq
 $mq-breakpoints: $grid-breakpoints;

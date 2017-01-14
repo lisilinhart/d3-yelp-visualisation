@@ -19,7 +19,6 @@ export default class BarChart {
 
   init() {
     this.chart = d3.select(this.container)
-      .style('background', 'rgb(240, 240, 240)')
       .append('svg')
       .attr('width', this.width)
       .attr('height', this.height);
@@ -40,7 +39,7 @@ export default class BarChart {
     }, (error, data) => {
       if (error) throw error;
 
-      data = data.slice(1, 20);
+      data = data.slice(0, 10);
       const height = this.height;
       const maxValue = d3.max(data, d => d.count);
 
