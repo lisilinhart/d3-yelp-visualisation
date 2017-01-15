@@ -41,5 +41,9 @@
     &:hover {
       background: lighten(nth($color-list, 1), 40%);
     }
+
+    &.active {
+      background: lighten(nth($color-list, 1), 20%);
+    }
   }
 }

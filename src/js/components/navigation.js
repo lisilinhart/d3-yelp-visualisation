@@ -5,12 +5,14 @@ export default class Navigation {
   }
 
   listen() {
-    this.links.map(el => el.addEventListener('click', this.linkClick));
+    this.links.map(el => el.addEventListener('click', this.linkClick.bind(this)));
   }
 
   linkClick(e) {
     e.preventDefault();
+    this.links.map(el => el.classList.remove('active'));
     const target = e.currentTarget;
+    target.classList.add('active');
     window.emitter.emit('updateCharts', target.getAttribute('href'));
   }
 }

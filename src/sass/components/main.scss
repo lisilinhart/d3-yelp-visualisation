@@ -1,9 +1,9 @@
-#main {
+#app {
   svg {
     width: 100%;
   }
+}
 
-  .container-fluid, .container-fluid .row {
-    height: 100%;
-  }
+.container-fluid, .container-fluid > .row {
+  height: 100vh;
 }
