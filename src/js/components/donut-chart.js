@@ -1,6 +1,7 @@
 import * as d3 from 'd3';
 import d3Tip from 'd3-tip';
 import bindAll from '../utils/bindAll';
+import * as d3Ease from 'd3-ease';
 
 export default class DonutChart {
   constructor({ data, container, city, colors }) {
@@ -114,14 +115,15 @@ export default class DonutChart {
         .enter().append('path')
         .attr('fill', d => d.color = colorScale(d.data.count))
         .attr('class', 'arc')
-        .attr('opacity', 0)
+        .attr('transform', 'scale(0)')
         .attr('d', arc)
         .on('mouseover', this.chartHover)
         .on('mouseout', this.chartHoverEnd)
         .transition()
         .duration(1000)
-        .delay((d,i) => i * 120)
-        .attr('opacity', 1);
+        .ease(d3Ease.easeSinOut)
+        .delay((d,i) => i * 100)
+        .attr('transform', 'scale(1)');
     });
   }
 }

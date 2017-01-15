@@ -1,6 +1,7 @@
 import * as d3 from 'd3';
 import d3Tip from 'd3-tip';
 import bindAll from '../utils/bindAll';
+import * as d3Ease from 'd3-ease';
 
 export default class BarChart {
   constructor({ data, container, city, colors }) {
@@ -149,8 +150,9 @@ export default class BarChart {
         .on('mouseover', this.chartHover)
         .on('mouseout', this.chartHoverEnd)
         .transition()
-        .duration(1000)
-        .delay((d, i) => i * 120)
+        .duration(1800)
+        .ease(d3Ease.easeBackOut)
+        .delay((d, i) => i * 80)
         .attr('height', d => yScale(d.count))
         .attr('y', d => height - yScale(d.count));
     });

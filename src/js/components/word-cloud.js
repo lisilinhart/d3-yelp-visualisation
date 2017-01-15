@@ -104,7 +104,7 @@ export default class WordCloud {
       .on('mouseover', tip.show)
       .on('mouseout', tip.hide)
       .transition()
-      .duration(1000)
+      .duration(800)
       .ease(d3Ease.easeBackOut)
       .delay((d,i) => i * 30)
       .attr('transform', d => `scale(1) translate(${[d.x, d.y]}) rotate(${d.rotate})`);
