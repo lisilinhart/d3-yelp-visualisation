@@ -15,21 +15,35 @@ export default class BarChart {
     this.padding = 5;
     this.barWidth = 10;
 
-    bindAll(this, ['createAxis', 'createBars', 'updateData']);
+    bindAll(this, ['createAxis', 'createBars', 'updateData', 'toggleCategory', 'chartHover', 'chartHoverEnd']);
     this.init();
     this.createBars();
     this.createTip();
+  }
+
+  listeners() {
+    window.emitter.on('updateCharts', this.updateData);
+    window.emitter.on('toggleCategory', this.toggleCategory);
   }
 
   init() {
     this.chart = d3.select(this.container)
       .append('svg')
       .attr('viewBox', `0 0 ${this.width + 10} ${this.height + 80}`);
+    this.listeners();
+  }
 
-    window.emitter.on('updateCharts', this.updateData.bind(this));
+  animateOut() {
+    this.chart.selectAll('.bar')
+    .transition()
+    .duration(1000)
+    .delay((d, i) => i * 15)
+    .attr('height', 0)
+    .attr('y', () => this.height);
   }
 
   updateData(city) {
+    this.animateOut();
     this.chart.selectAll('.x-axis').remove();
     this.file = `../data/${city}_categories_reviews.tsv`;
     this.chart.selectAll('.bar').remove();
@@ -60,6 +74,29 @@ export default class BarChart {
       });
 
     this.chart.call(this.tip);
+  }
+
+  chartHover(e) {
+    window.emitter.emit('toggleCategory', e.categories, 'show');
+    this.tip.show(e);
+  }
+
+  chartHoverEnd(e) {
+    window.emitter.emit('toggleCategory', e.categories, 'hide');
+    this.tip.hide();
+  }
+
+  toggleCategory(category, value) {
+    console.log(category,value)
+    if (value === 'show') {
+      this.chart.selectAll('.bar')
+        .filter(d => d.categories === category)
+        .attr('fill', '#00b8d4');
+    } else {
+      this.chart.selectAll('.bar')
+        .filter(d => d.categories === category)
+        .attr('fill', d => d.color);
+    }
   }
 
   createBars() {
@@ -95,7 +132,6 @@ export default class BarChart {
         ]);
 
       this.createAxis(xScale);
-      const tip = this.tip;
 
       const chartBars = this.chart.selectAll('.bar')
         .data(data)
@@ -104,11 +140,11 @@ export default class BarChart {
         .attr('transform-origin', '100% 100%')
         .attr('y', d => height)
         .attr('height', d => 0)
-        .attr('fill', (d, i) => colorScale(d.count))
+        .attr('fill',  d => d.color = colorScale(d.count))
         .attr('x', d => xScale(d.categories))
         .attr('width', xScale.bandwidth())
-        .on('mouseover', tip.show)
-        .on('mouseout', tip.hide)
+        .on('mouseover', this.chartHover)
+        .on('mouseout', this.chartHoverEnd)
         .transition()
         .duration(1000)
         .delay((d, i) => i * 15)

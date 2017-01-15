@@ -3,7 +3,7 @@ import d3Tip from 'd3-tip';
 import bindAll from '../utils/bindAll';
 
 export default class DonutChart {
-  constructor({ data, container, width, height, city, colors }) {
+  constructor({ data, container, city, colors }) {
     console.log('----- Donut Chart Init -----');
     this.file = `../data/${city}_checkins_by_category.tsv`;
     this.data = data;
@@ -16,9 +16,14 @@ export default class DonutChart {
     this.radius = Math.min(this.width, this.height) / 2;
     this.innerRadius = 0.2 * this.radius;
 
-    bindAll(this, ['createSlices', 'updateData']);
+    bindAll(this, ['createSlices', 'updateData', 'toggleCategory', 'chartHover', 'chartHoverEnd']);
     this.init();
     this.createSlices(this.radius, this.innerRadius);
+  }
+
+  listeners() {
+    window.emitter.on('updateCharts', this.updateData);
+    window.emitter.on('toggleCategory', this.toggleCategory);
   }
 
   init() {
@@ -29,7 +34,7 @@ export default class DonutChart {
       .attr('transform', `translate( ${this.width / 2}, ${this.height / 2} )`);
 
     this.createTip();
-    window.emitter.on('updateCharts', this.updateData);
+    this.listeners();
   }
 
   updateData(city) {
@@ -48,6 +53,28 @@ export default class DonutChart {
       });
 
     this.chart.call(this.tip);
+  }
+
+  chartHover(e) {
+    window.emitter.emit('toggleCategory', e.data.category, 'show');
+    this.tip.show(e);
+  }
+
+  chartHoverEnd(e) {
+    window.emitter.emit('toggleCategory', e.data.category, 'hide');
+    this.tip.hide();
+  }
+
+  toggleCategory(category, value) {
+    if (value === 'show') {
+      this.chart.selectAll('.arc')
+        .filter(d => d.data.category === category)
+        .attr('fill', '#00b8d4');
+    } else {
+      this.chart.selectAll('.arc')
+        .filter(d => d.data.category === category)
+        .attr('fill', d => d.color);
+    }
   }
 
   createSlices(radius, innerRadius) {
@@ -83,16 +110,14 @@ export default class DonutChart {
       .domain([minValue,maxValue* 0.25,maxValue* 0.5, maxValue* 0.75,maxValue])
       .range(this.colors);
 
-      const tip = this.tip;
-
       const path = this.chart.selectAll('.solidArc')
         .data(pie)
         .enter().append('path')
-        .attr('fill', d => colorScale(d.data.count))
+        .attr('fill', d => d.color = colorScale(d.data.count))
         .attr('class', 'arc')
         .attr('d', arc)
-        .on('mouseover', tip.show)
-        .on('mouseout', tip.hide);
+        .on('mouseover', this.chartHover)
+        .on('mouseout', this.chartHoverEnd);
     });
   }
 }
