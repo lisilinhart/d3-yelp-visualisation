@@ -21,27 +21,27 @@ class Application {
 
   initCharts() {
     this.barChart = new BarChart({
-      city: 'edinburgh',
+      city: 'phoenix',
       container: this.container.querySelector('.bar-chart'),
       colors: this.colors,
     });
 
     this.wordCloud = new WordCloud({
-      city: 'edinburgh',
+      city: 'phoenix',
       reviewStars: 5,
       container: this.container.querySelector('.word-cloud-positive'),
       colors: this.colors,
     });
 
     this.wordCloud = new WordCloud({
-      city: 'edinburgh',
+      city: 'phoenix',
       reviewStars: 1,
       container: this.container.querySelector('.word-cloud-negative'),
       colors: this.colors,
     });
 
     this.donutChart = new DonutChart({
-      city: 'edinburgh',
+      city: 'phoenix',
       container: this.container.querySelector('.donut-chart'),
       colors: this.colors,
     });
