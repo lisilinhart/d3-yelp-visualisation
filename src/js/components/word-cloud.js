@@ -104,9 +104,9 @@ export default class WordCloud {
       .on('mouseover', tip.show)
       .on('mouseout', tip.hide)
       .transition()
-      .duration(800)
+      .duration(1000)
       .ease(d3Ease.easeBackOut)
-      .delay((d,i) => i * 30)
+      .delay((d,i) => i * 15)
       .attr('transform', d => `scale(1) translate(${[d.x, d.y]}) rotate(${d.rotate})`);
 
     this.chart.call(this.tip);
