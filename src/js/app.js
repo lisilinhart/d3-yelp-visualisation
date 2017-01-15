@@ -2,6 +2,7 @@ import TinyEmitter from 'tiny-emitter';
 import Navigation from './components/navigation';
 import BarChart from './components/bar-chart';
 import WordCloud from './components/word-cloud';
+import DonutChart from './components/donut-chart';
 
 class Application {
   constructor() {
@@ -41,6 +42,14 @@ class Application {
       city: 'edinburgh',
       reviewStars: 1,
       container: this.container.querySelector('.word-cloud-negative'),
+      colors: this.colors,
+      width: this.width / 2,
+      height: this.height / 2,
+    });
+
+    this.donutChart = new DonutChart({
+      city: 'edinburgh',
+      container: this.container.querySelector('.donut-chart'),
       colors: this.colors,
       width: this.width / 2,
       height: this.height / 2,

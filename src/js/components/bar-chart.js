@@ -3,16 +3,9 @@ import d3Tip from 'd3-tip';
 import bindAll from '../utils/bindAll';
 
 export default class BarChart {
-  constructor({
-    data,
-    container,
-    width,
-    height,
-    city,
-    colors,
-  }) {
+  constructor({ data, container, width, height, city, colors }) {
     console.log('----- Bar Chart Init -----');
-    this.file = `../data/${city}_categories_reviews.csv`;
+    this.file = `../data/${city}_categories_reviews.tsv`;
     this.data = data;
     this.colors = colors;
     this.container = container;
@@ -38,7 +31,7 @@ export default class BarChart {
 
   updateData(city) {
     this.chart.selectAll('.x-axis').remove();
-    this.file = `../data/${city}_categories_reviews.csv`;
+    this.file = `../data/${city}_categories_reviews.tsv`;
     this.chart.selectAll('.bar').remove();
     this.createBars();
   }
