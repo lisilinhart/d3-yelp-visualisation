@@ -5,6 +5,7 @@ import Navigation from './components/navigation';
 
 import BarChart from './components/bar-chart';
 import WordCloud from './components/word-cloud';
+import DonutChart from './components/donut-chart';
 
 class Application {
   constructor(options) {
@@ -34,6 +35,14 @@ class Application {
     this.wordCloud = new WordCloud({
       file: 'edinburgh_review',
       container: this.container.querySelector('.word-cloud'),
+      colors: this.colors,
+      width: this.width / 2,
+      height: this.height / 2,
+    });
+
+    this.donutChart = new DonutChart({
+      city: 'edinburgh',
+      container: this.container.querySelector('.donut-chart'),
       colors: this.colors,
       width: this.width / 2,
       height: this.height / 2,
