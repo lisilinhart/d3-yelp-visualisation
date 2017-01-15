@@ -1,0 +1,40 @@
+.bar-chart {
+  .bar {
+    transition: fill 0.2s ease-out;
+    cursor: pointer;
+    &:hover {
+      fill: $svg-hover-color;
+    }
+  }
+  .x-axis {
+    line,
+    path {
+      stroke: $axis-color;
+    }
+    text {
+      fill: $axis-color;
+      font-size: 8px;
+    }
+  }
+}
+
+.donut-chart {
+  .arc {
+    transition: fill 0.2s ease-out;
+    cursor: pointer;
+    &:hover {
+      fill: $svg-hover-color;
+    }
+  }
+}
+
+.wordcloud {
+  text {
+    transition: fill 0.2s ease-out;
+    cursor: pointer;
+
+    &:hover {
+      fill: $svg-hover-color !important;
+    }
+  }
+}

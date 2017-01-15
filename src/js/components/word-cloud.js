@@ -1,5 +1,6 @@
 import * as d3 from 'd3';
 import cloud from 'd3-cloud';
+import d3Tip from 'd3-tip';
 
 export default class WordCloud {
   constructor({ container, width, height, city, reviewStars, colors }) {
@@ -19,12 +20,22 @@ export default class WordCloud {
       this.words = json;
       this.processWords();
     });
+    this.createTip();
   }
 
   updateData(city) {
     this.file = `../data/review_words_${city}_${this.reviewStars}_star.json`;
     d3.select(this.container).selectAll('svg').remove();
     this.init();
+  }
+
+  createTip() {
+    this.tip = d3Tip()
+      .attr('class', 'd3-tip')
+      .offset([-10, 0])
+      .html((d) => {
+        return `Occurence: <span>${d.wordcount}</span>`;
+      });
   }
 
   processWords() {
@@ -51,10 +62,14 @@ export default class WordCloud {
       .range([10, 100]);
 
     const fontScale = this.fontScale;
+
     cloud().size([this.width - 50, this.height - 50])
       .words(this.words)
       .rotate(0)
-      .fontSize(d => fontScale(d.size))
+      .fontSize((d) => {
+        d.wordcount = d.size;
+        return fontScale(d.size);
+      })
       .padding(5)
       .on('end', this.createCloud.bind(this))
       .start();
@@ -63,6 +78,7 @@ export default class WordCloud {
   createCloud(words) {
     const colorScale = this.colorScale;
     const opacityScale = this.opacityScale;
+    const tip = this.tip;
 
     this.chart = d3.select(this.container)
       .append('svg')
@@ -79,6 +95,10 @@ export default class WordCloud {
       .style('fill', d => colorScale(d.size))
       .style('opacity', d => opacityScale(d.size))
       .attr('transform', d => `translate(${[d.x, d.y]}) rotate(${d.rotate})`)
-      .text(d => d.text);
+      .text(d => d.text)
+      .on('mouseover', tip.show)
+      .on('mouseout', tip.hide);
+
+    this.chart.call(this.tip);
   }
 }

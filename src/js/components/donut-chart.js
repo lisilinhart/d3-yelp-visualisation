@@ -26,10 +26,9 @@ export default class DonutChart {
       .append('svg')
       .attr('viewBox', `0 0 ${this.width} ${this.height}`)
       .append('g')
-      .attr('class', 'donut-chart')
-      .attr('id', 'donut-chart')
       .attr('transform', `translate( ${this.width / 2}, ${this.height / 2} )`);
 
+    this.createTip();
     window.emitter.on('updateCharts', this.updateData);
   }
 
@@ -44,7 +43,8 @@ export default class DonutChart {
       .attr('class', 'd3-tip')
       .offset([-10, 0])
       .html((d) => {
-        return `<strong>Reviews:</strong> <span>${d.count}</span>`;
+        return `${d.data.category} <br>
+        Checkins: <span>${d.data.count}</span>`;
       });
 
     this.chart.call(this.tip);
@@ -60,7 +60,6 @@ export default class DonutChart {
 
       this.data = data.slice(0, 10);
 
-
       const maxValue = d3.max(this.data, d => d.count);
       const minValue = d3.min(this.data, d => d.count);
 
@@ -73,6 +72,7 @@ export default class DonutChart {
         .padAngle(this.padding)
         .sort(function(a, b) { return .5 - Math.random() })
         (this.data);
+
       const arc = d3.arc()
       .innerRadius(innerRadius)
       .outerRadius(function (d) { 
@@ -80,16 +80,19 @@ export default class DonutChart {
       });
 
       const colorScale = d3.scaleLinear()
-      .domain([0, 1])
+      .domain([minValue,maxValue* 0.25,maxValue* 0.5, maxValue* 0.75,maxValue])
       .range(this.colors);
+
+      const tip = this.tip;
 
       const path = this.chart.selectAll('.solidArc')
         .data(pie)
         .enter().append('path')
-        .sort(function(a, b) { return .5 - Math.random() })
-        .attr('fill', (d,i) => colorScale(i))
+        .attr('fill', d => colorScale(d.data.count))
         .attr('class', 'arc')
-        .attr('d', arc);
+        .attr('d', arc)
+        .on('mouseover', tip.show)
+        .on('mouseout', tip.hide);
     });
   }
 }
