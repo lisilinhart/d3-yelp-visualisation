@@ -43,7 +43,7 @@
     }
 
     &.active {
-      background: lighten(nth($color-list, 1), 20lighten%);
+      background: lighten(nth($color-list, 1), 20%);
     }
   }
 }
