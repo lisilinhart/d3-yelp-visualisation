@@ -3,5 +3,8 @@
     "installedESLint": true,
     "plugins": [
         "import"
-    ]
+    ],
+    "env": {
+        "browser": true
+    }
 }
