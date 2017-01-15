@@ -3,7 +3,14 @@ import d3Tip from 'd3-tip';
 import bindAll from '../utils/bindAll';
 
 export default class BarChart {
-  constructor({ data, container, width, height, city, colors }) {
+  constructor({
+    data,
+    container,
+    width,
+    height,
+    city,
+    colors,
+  }) {
     console.log('----- Bar Chart Init -----');
     this.file = `../data/${city}_categories_reviews.csv`;
     this.data = data;
@@ -40,24 +47,24 @@ export default class BarChart {
     const xAxis = d3.axisBottom(xScale);
 
     this.chart.append('g')
-    .attr('class', 'x-axis')
-    .attr('transform', `translate(0, ${this.height} )`)
-    .call(xAxis)
-    .selectAll('text')
-    .attr('y', 0)
-    .attr('x', 9)
-    .attr('dy', '.35em')
-    .attr('transform', 'rotate(55)')
-    .style('text-anchor', 'start');
+      .attr('class', 'x-axis')
+      .attr('transform', `translate(0, ${this.height} )`)
+      .call(xAxis)
+      .selectAll('text')
+      .attr('y', 0)
+      .attr('x', 9)
+      .attr('dy', '.35em')
+      .attr('transform', 'rotate(55)')
+      .style('text-anchor', 'start');
   }
 
   createTip() {
     this.tip = d3Tip()
-    .attr('class', 'd3-tip')
-    .offset([-10, 0])
-    .html((d) => {
-      return `<strong>Reviews:</strong> <span>${d.count}</span>`;
-    });
+      .attr('class', 'd3-tip')
+      .offset([-10, 0])
+      .html((d) => {
+        return `<strong>Reviews:</strong> <span>${d.count}</span>`;
+      });
 
     this.chart.call(this.tip);
   }
@@ -87,12 +94,12 @@ export default class BarChart {
       const colorScale = d3.scaleLinear()
         .domain([0, maxValue * 0.25, maxValue * 0.5, maxValue * 0.75, maxValue])
         .interpolate(d3.interpolateHcl)
-          .range([d3.rgb(this.colors[0]),
-            d3.rgb(this.colors[1]),
-            d3.rgb(this.colors[2]),
-            d3.rgb(this.colors[3]),
-            d3.rgb(this.colors[4]),
-          ]);
+        .range([d3.rgb(this.colors[0]),
+          d3.rgb(this.colors[1]),
+          d3.rgb(this.colors[2]),
+          d3.rgb(this.colors[3]),
+          d3.rgb(this.colors[4]),
+        ]);
 
       this.createAxis(xScale);
       const tip = this.tip;
@@ -102,7 +109,7 @@ export default class BarChart {
         .enter().append('rect')
         .attr('class', 'bar')
         .attr('transform-origin', '100% 100%')
-        .attr('y', d => height - yScale(d.count))
+        .attr('y', d => height)
         .attr('height', d => 0)
         .attr('fill', (d, i) => colorScale(d.count))
         .attr('x', d => xScale(d.categories))
@@ -110,10 +117,10 @@ export default class BarChart {
         .on('mouseover', tip.show)
         .on('mouseout', tip.hide)
         .transition()
-          .duration(1000)
-          .delay((d, i) => i * 15)
-          .attr('height', d => yScale(d.count))
-          .attr('y', d => height - yScale(d.count));
+        .duration(1000)
+        .delay((d, i) => i * 15)
+        .attr('height', d => yScale(d.count))
+        .attr('y', d => height - yScale(d.count));
     });
   }
 }
