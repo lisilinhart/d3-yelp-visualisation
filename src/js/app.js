@@ -6,7 +6,6 @@ import DonutChart from './components/donut-chart';
 
 class Application {
   constructor() {
-    console.log('--------- App Init ---------');
     window.emitter = new TinyEmitter();
 
     this.navigation = new Navigation();

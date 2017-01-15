@@ -3,7 +3,6 @@ import cloud from 'd3-cloud';
 
 export default class WordCloud {
   constructor({ container, width, height, city, reviewStars, colors }) {
-    console.log('----- Word Cloud Init -----');
     this.file = `../data/review_words_${city}_${reviewStars}_star.json`;
     this.reviewStars = reviewStars;
     this.colors = colors;
@@ -67,12 +66,11 @@ export default class WordCloud {
 
     this.chart = d3.select(this.container)
       .append('svg')
-      .attr('width', this.width)
-      .attr('height', this.height)
       .attr('class', 'wordcloud')
+      .attr('viewBox', `0 0 ${this.width} ${this.height}`)
       .append('g')
       .attr('class', 'wordgroup')
-      .attr('transform', `translate(${this.height / 1.3}, ${this.height / 2})`)
+      .attr('transform', `translate(${this.width / 2}, ${this.height / 2})`)
       .selectAll('text')
       .data(words)
       .enter()

@@ -1,11 +1,23 @@
 {{> header}}
 
-<main class="col-xs-12 col-md-9" id="app">
+<main class="col-xs-12 col-lg-9" id="app">
   <div class="row">
-    <div class="col-xs-12 col-md-6 donut-chart"></div>
-    <div class="col-xs-12 col-md-6 bar-chart"></div>
-    <div class="col-xs-12 col-md-6 word-cloud-positive"></div>
-    <div class="col-xs-12 col-md-6 word-cloud-negative"></div>
+    <div class="col-xs-12 col-md-6 chart-container">
+      <div class="chart-item donut-chart"></div>
+      <h2>Checkins by Category</h2>
+    </div>
+    <div class="col-xs-12 col-md-6 chart-container">
+      <div class="chart-item bar-chart"></div>
+      <h2>Most Reviewed Categories</h2>
+    </div>
+    <div class="col-xs-12 col-md-6 chart-container">
+      <div class="chart-item word-cloud-positive"></div>
+      <h2>Common Words in Positive Reviews</h2>
+    </div>
+    <div class="col-xs-12 col-md-6 chart-container">
+      <div class="chart-item word-cloud-negative"></div>
+      <h2>Common Words in Negative Reviews</h2>
+    </div>
   </div>
 </main>
 

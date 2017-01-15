@@ -1,0 +1,19 @@
+.chart-container {
+  height: 70vw;
+  // border: 2px solid #EEE;
+  padding: 15px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: flex-end;
+
+  .chart-item {
+    flex: 100%;
+    width: 100%;
+  }
+
+  @include mq($from: md) {
+    height: 50vh;
+    padding: 50px;
+  }
+}
