@@ -33,9 +33,7 @@ export default class WordCloud {
     this.tip = d3Tip()
       .attr('class', 'd3-tip')
       .offset([-10, 0])
-      .html((d) => {
-        return `Occurence: <span>${d.wordcount}</span>`;
-      });
+      .html(d => `Occurence: <span>${d.wordcount}</span>`);
   }
 
   processWords() {
@@ -57,9 +55,11 @@ export default class WordCloud {
       .domain([0, 100])
       .range([1.0, 0.2]);
 
+    const fontSize = this.width / 8;
+
     this.fontScale = d3.scaleLinear()
       .domain([minValue, maxValue])
-      .range([10, 100]);
+      .range([10, fontSize]);
 
     const fontScale = this.fontScale;
 
@@ -70,7 +70,7 @@ export default class WordCloud {
         d.wordcount = d.size;
         return fontScale(d.size);
       })
-      .padding(5)
+      .padding(3)
       .on('end', this.createCloud.bind(this))
       .start();
   }
