@@ -47,10 +47,10 @@ export default class DonutChart {
     this.tip = d3Tip()
       .attr('class', 'd3-tip')
       .offset([-10, 0])
-      .html((d) => {
-        return `${d.data.category} <br>
-        Checkins: <span>${d.data.count}</span>`;
-      });
+      .html(d => `
+        <span class="d3-tip-heading">${d.data.category}</span>
+        <span class="d3-tip-number">${d.data.count}</span>
+      `);
 
     this.chart.call(this.tip);
   }
@@ -115,9 +115,14 @@ export default class DonutChart {
         .enter().append('path')
         .attr('fill', d => d.color = colorScale(d.data.count))
         .attr('class', 'arc')
+        .attr('opacity', 0)
         .attr('d', arc)
         .on('mouseover', this.chartHover)
-        .on('mouseout', this.chartHoverEnd);
+        .on('mouseout', this.chartHoverEnd)
+        .transition()
+        .duration(1000)
+        .delay((d,i) => i * 120)
+        .attr('opacity', 1);
     });
   }
 }

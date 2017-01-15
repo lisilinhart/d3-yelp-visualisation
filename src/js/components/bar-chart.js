@@ -60,9 +60,13 @@ export default class BarChart {
       .selectAll('text')
       .attr('y', 0)
       .attr('x', 9)
+      .attr('opacity', 0)
       .attr('dy', '.35em')
       .attr('transform', 'rotate(55)')
-      .style('text-anchor', 'start');
+      .style('text-anchor', 'start')
+      .transition()
+      .duration(1000)
+      .attr('opacity', 1);
   }
 
   createTip() {
@@ -70,7 +74,8 @@ export default class BarChart {
       .attr('class', 'd3-tip')
       .offset([-10, 0])
       .html((d) => {
-        return `<strong>Reviews:</strong> <span>${d.count}</span>`;
+        return `<span class="d3-tip-heading">Reviews</span>
+                <span class="d3-tip-number">${d.count}</span>`;
       });
 
     this.chart.call(this.tip);
@@ -87,7 +92,6 @@ export default class BarChart {
   }
 
   toggleCategory(category, value) {
-    console.log(category,value)
     if (value === 'show') {
       this.chart.selectAll('.bar')
         .filter(d => d.categories === category)
@@ -147,7 +151,7 @@ export default class BarChart {
         .on('mouseout', this.chartHoverEnd)
         .transition()
         .duration(1000)
-        .delay((d, i) => i * 15)
+        .delay((d, i) => i * 120)
         .attr('height', d => yScale(d.count))
         .attr('y', d => height - yScale(d.count));
     });

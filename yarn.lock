@@ -1518,7 +1518,7 @@ d3-dsv@1, d3-dsv@1.0.3:
     iconv-lite "0.4"
     rw "1"
 
-d3-ease@1, d3-ease@1.0.2:
+d3-ease, d3-ease@1, d3-ease@1.0.2:
   version "1.0.2"
   resolved "https://registry.yarnpkg.com/d3-ease/-/d3-ease-1.0.2.tgz#b486f8f3ca308ca7be38197d65622b6e30983377"
 

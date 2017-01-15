@@ -1,6 +1,7 @@
 import * as d3 from 'd3';
 import cloud from 'd3-cloud';
 import d3Tip from 'd3-tip';
+import * as d3Ease from 'd3-ease';
 
 export default class WordCloud {
   constructor({ container, city, reviewStars, colors }) {
@@ -13,6 +14,7 @@ export default class WordCloud {
 
     window.emitter.on('updateCharts', this.updateData.bind(this));
     this.init();
+    console.log(d3Ease);
   }
 
   init() {
@@ -33,7 +35,10 @@ export default class WordCloud {
     this.tip = d3Tip()
       .attr('class', 'd3-tip')
       .offset([-10, 0])
-      .html(d => `Occurence: <span>${d.wordcount}</span>`);
+      .html(d => `
+        <span class="d3-tip-heading">Word Occurence</span>
+        <span class="d3-tip-number">${d.wordcount}</span>
+      `);
   }
 
   processWords() {
@@ -94,10 +99,15 @@ export default class WordCloud {
       .style('font-size', d => `${d.size}px`)
       .style('fill', d => colorScale(d.size))
       .style('opacity', d => opacityScale(d.size))
-      .attr('transform', d => `translate(${[d.x, d.y]}) rotate(${d.rotate})`)
+      .attr('transform', d => `scale(0) translate(${[d.x, d.y]}) rotate(${d.rotate})`)
       .text(d => d.text)
       .on('mouseover', tip.show)
-      .on('mouseout', tip.hide);
+      .on('mouseout', tip.hide)
+      .transition()
+      .duration(1000)
+      .ease(d3Ease.easeBackOut)
+      .delay((d,i) => i * 30)
+      .attr('transform', d => `scale(1) translate(${[d.x, d.y]}) rotate(${d.rotate})`);
 
     this.chart.call(this.tip);
   }
