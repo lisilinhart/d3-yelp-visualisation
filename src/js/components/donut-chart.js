@@ -1,11 +1,11 @@
 import * as d3 from 'd3';
 import d3Tip from 'd3-tip';
-import bindAll from '../utils/bindAll';
 import * as d3Ease from 'd3-ease';
+import bindAll from '../utils/bindAll';
 
 export default class DonutChart {
   constructor({ data, container, city, colors }) {
-    this.file = `../data/${city}_checkins_by_category.tsv`;
+    this.file = `data/${city}_checkins_by_category.tsv`;
     this.data = data;
     this.colors = colors;
     this.container = container;
@@ -39,7 +39,7 @@ export default class DonutChart {
 
   updateData(city) {
     this.chart.selectAll('path').remove();
-    this.file = `../data/${city}_checkins_by_category.tsv`;
+    this.file = `data/${city}_checkins_by_category.tsv`;
     this.createSlices(this.radius, this.innerRadius);
   }
 

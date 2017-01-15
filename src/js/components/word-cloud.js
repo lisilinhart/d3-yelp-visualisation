@@ -5,7 +5,7 @@ import * as d3Ease from 'd3-ease';
 
 export default class WordCloud {
   constructor({ container, city, reviewStars, colors }) {
-    this.file = `../data/review_words_${city}_${reviewStars}_star.json`;
+    this.file = `data/review_words_${city}_${reviewStars}_star.json`;
     this.reviewStars = reviewStars;
     this.colors = colors;
     this.container = container;
@@ -14,7 +14,6 @@ export default class WordCloud {
 
     window.emitter.on('updateCharts', this.updateData.bind(this));
     this.init();
-    console.log(d3Ease);
   }
 
   init() {
@@ -26,7 +25,7 @@ export default class WordCloud {
   }
 
   updateData(city) {
-    this.file = `../data/review_words_${city}_${this.reviewStars}_star.json`;
+    this.file = `data/review_words_${city}_${this.reviewStars}_star.json`;
     d3.select(this.container).selectAll('svg').remove();
     this.init();
   }

@@ -1,11 +1,11 @@
 import * as d3 from 'd3';
 import d3Tip from 'd3-tip';
-import bindAll from '../utils/bindAll';
 import * as d3Ease from 'd3-ease';
+import bindAll from '../utils/bindAll';
 
 export default class BarChart {
   constructor({ data, container, city, colors }) {
-    this.file = `../data/${city}_categories_reviews.tsv`;
+    this.file = `data/${city}_categories_reviews.tsv`;
     this.data = data;
     this.colors = colors;
     this.container = container;
@@ -45,7 +45,7 @@ export default class BarChart {
   updateData(city) {
     this.animateOut();
     this.chart.selectAll('.x-axis').remove();
-    this.file = `../data/${city}_categories_reviews.tsv`;
+    this.file = `data/${city}_categories_reviews.tsv`;
     this.chart.selectAll('.bar').remove();
     this.createBars();
   }
