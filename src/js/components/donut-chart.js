@@ -26,8 +26,6 @@ export default class DonutChart {
       .append('svg')
       .attr('viewBox', `0 0 ${this.width} ${this.height}`)
       .append('g')
-      .attr('class', 'donut-chart')
-      .attr('id', 'donut-chart')
       .attr('transform', `translate( ${this.width / 2}, ${this.height / 2} )`);
 
     this.createTip();
@@ -45,8 +43,8 @@ export default class DonutChart {
       .attr('class', 'd3-tip')
       .offset([-10, 0])
       .html((d) => {
-        return `<p class="tooltip-text">${d.data.category} <br>
-        Checkins: <span>${d.data.count}</span></p>`;
+        return `${d.data.category} <br>
+        Checkins: <span>${d.data.count}</span>`;
       });
 
     this.chart.call(this.tip);
