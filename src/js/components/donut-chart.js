@@ -4,7 +4,6 @@ import bindAll from '../utils/bindAll';
 
 export default class DonutChart {
   constructor({ data, container, city, colors }) {
-    console.log('----- Donut Chart Init -----');
     this.file = `../data/${city}_checkins_by_category.tsv`;
     this.data = data;
     this.colors = colors;
@@ -102,8 +101,8 @@ export default class DonutChart {
 
       const arc = d3.arc()
       .innerRadius(innerRadius)
-      .outerRadius(function (d) { 
-        return (radius - innerRadius) * (scale(d.data.count)) + innerRadius; 
+      .outerRadius(function (d) {
+        return (radius - innerRadius) * (scale(d.data.count)) + innerRadius;
       });
 
       const colorScale = d3.scaleLinear()

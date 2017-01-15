@@ -4,7 +4,6 @@ import bindAll from '../utils/bindAll';
 
 export default class BarChart {
   constructor({ data, container, city, colors }) {
-    console.log('----- Bar Chart Init -----');
     this.file = `../data/${city}_categories_reviews.tsv`;
     this.data = data;
     this.colors = colors;
