@@ -9,11 +9,11 @@ export default class DonutChart {
     this.data = data;
     this.colors = colors;
     this.container = container;
-    this.width = width;
-    this.height = height;
+    this.width = this.container.offsetWidth;
+    this.height = this.container.offsetHeight;
 
     this.padding = 0.05;
-    this.radius = Math.min(width, height) / 2;
+    this.radius = Math.min(this.width, this.height) / 2;
     this.innerRadius = 0.2 * this.radius;
 
     bindAll(this, ['createSlices', 'updateData']);

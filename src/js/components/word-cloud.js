@@ -3,13 +3,13 @@ import cloud from 'd3-cloud';
 import d3Tip from 'd3-tip';
 
 export default class WordCloud {
-  constructor({ container, width, height, city, reviewStars, colors }) {
+  constructor({ container, city, reviewStars, colors }) {
     this.file = `../data/review_words_${city}_${reviewStars}_star.json`;
     this.reviewStars = reviewStars;
     this.colors = colors;
     this.container = container;
-    this.width = width;
-    this.height = height;
+    this.width = this.container.offsetWidth;
+    this.height = this.container.offsetHeight;
 
     window.emitter.on('updateCharts', this.updateData.bind(this));
     this.init();

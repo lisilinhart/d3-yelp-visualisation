@@ -3,14 +3,14 @@ import d3Tip from 'd3-tip';
 import bindAll from '../utils/bindAll';
 
 export default class BarChart {
-  constructor({ data, container, width, height, city, colors }) {
+  constructor({ data, container, city, colors }) {
     console.log('----- Bar Chart Init -----');
     this.file = `../data/${city}_categories_reviews.tsv`;
     this.data = data;
     this.colors = colors;
     this.container = container;
-    this.width = width;
-    this.height = height;
+    this.width = this.container.offsetWidth;
+    this.height = this.container.offsetHeight;
 
     this.padding = 5;
     this.barWidth = 10;

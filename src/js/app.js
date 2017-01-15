@@ -24,8 +24,6 @@ class Application {
       city: 'edinburgh',
       container: this.container.querySelector('.bar-chart'),
       colors: this.colors,
-      width: this.width / 2,
-      height: this.height / 2,
     });
 
     this.wordCloud = new WordCloud({
@@ -33,8 +31,6 @@ class Application {
       reviewStars: 5,
       container: this.container.querySelector('.word-cloud-positive'),
       colors: this.colors,
-      width: this.width / 2,
-      height: this.height / 2,
     });
 
     this.wordCloud = new WordCloud({
@@ -42,16 +38,12 @@ class Application {
       reviewStars: 1,
       container: this.container.querySelector('.word-cloud-negative'),
       colors: this.colors,
-      width: this.width / 2,
-      height: this.height / 2,
     });
 
     this.donutChart = new DonutChart({
       city: 'edinburgh',
       container: this.container.querySelector('.donut-chart'),
       colors: this.colors,
-      width: this.width / 2,
-      height: this.height / 2,
     });
   }
 }
