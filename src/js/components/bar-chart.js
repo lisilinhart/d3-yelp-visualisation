@@ -149,9 +149,9 @@ export default class BarChart {
         .on('mouseover', this.chartHover)
         .on('mouseout', this.chartHoverEnd)
         .transition()
-        .duration(1800)
+        .duration(500)
         .ease(d3Ease.easeBackOut)
-        .delay((d, i) => i * 80)
+        .delay((d, i) => (i * 100) + 300)
         .attr('height', d => yScale(d.count))
         .attr('y', d => height - yScale(d.count));
     });

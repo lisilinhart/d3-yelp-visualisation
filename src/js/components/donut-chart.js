@@ -115,7 +115,7 @@ export default class DonutChart {
         .on('mouseover', this.chartHover)
         .on('mouseout', this.chartHoverEnd)
         .transition()
-        .duration(1000)
+        .duration(500)
         .ease(d3Ease.easeSinOut)
         .delay((d, i) => i * 100)
         .attr('transform', 'scale(1)');
