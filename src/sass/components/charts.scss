@@ -1,7 +1,7 @@
 .bar-chart {
   .bar {
     transition: fill 0.2s ease-out;
-    cursor: default;;
+    cursor: default;
     &:hover {
       fill: $svg-hover-color;
     }
@@ -21,7 +21,7 @@
 .donut-chart {
   .arc {
     transition: fill 0.2s ease-out;
-    cursor: default;;
+    cursor: default;
     &:hover {
       fill: $svg-hover-color;
     }
@@ -31,6 +31,6 @@
 .wordcloud {
   text {
     transition: fill 0.2s ease-out;
-    cursor: default;;
+    cursor: default;
   }
 }
