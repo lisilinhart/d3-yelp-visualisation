@@ -32,9 +32,5 @@
   text {
     transition: fill 0.2s ease-out;
     cursor: pointer;
-
-    &:hover {
-      fill: $svg-hover-color !important;
-    }
   }
 }
