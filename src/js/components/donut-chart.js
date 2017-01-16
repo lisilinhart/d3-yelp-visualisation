@@ -38,9 +38,17 @@ export default class DonutChart {
   }
 
   updateData(city) {
-    this.chart.selectAll('path').remove();
-    this.file = `data/${city}_checkins_by_category.tsv`;
-    this.createSlices(this.radius, this.innerRadius);
+    let paths = this.container.querySelectorAll('path');
+
+    TweenMax.staggerTo(paths, 0.09, {
+      opacity: 0,
+      scale: 0,
+      ease: Sine.easeIn,
+    }, 0.07, () => {
+      this.chart.selectAll('path').remove();
+      this.file = `data/${city}_checkins_by_category.tsv`;
+      this.createSlices(this.radius, this.innerRadius);
+    });
   }
 
   createTip() {
@@ -66,7 +74,7 @@ export default class DonutChart {
   toggleCategory(category, value) {
     const el = this.chart.selectAll('.arc')
     .filter(d => d.data.category === category);
-    if (value === 'show') {
+    if (value === 'show' && !el.empty()) {
       el.attr('fill', '#00b8d4');
       this.tip.show(el.datum(), el.node());
     } else {
@@ -89,7 +97,7 @@ export default class DonutChart {
       const minValue = d3.min(this.data, d => d.count);
 
       const scale = d3.scaleLinear()
-        .domain([minValue - (minValue * 0.4), maxValue])
+        .domain([minValue - (minValue * 0.7), maxValue])
         .range([0, 1]);
 
       const pie = d3.pie()
@@ -111,13 +119,14 @@ export default class DonutChart {
         .attr('fill', d => d.color = colorScale(d.data.count))
         .attr('class', 'arc')
         .attr('transform', 'scale(0)')
+        .attr('transform-origin', '50% 50%')
         .attr('d', arc)
         .on('mouseover', this.chartHover)
         .on('mouseout', this.chartHoverEnd)
         .transition()
-        .duration(500)
+        .duration(700)
         .ease(d3Ease.easeSinOut)
-        .delay((d, i) => i * 100)
+        .delay((d, i) => i * 80)
         .attr('transform', 'scale(1)');
     });
   }

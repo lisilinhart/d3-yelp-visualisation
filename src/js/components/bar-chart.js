@@ -33,21 +33,22 @@ export default class BarChart {
     this.listeners();
   }
 
-  animateOut() {
-    this.chart.selectAll('.bar')
-    .transition()
-    .duration(1000)
-    .delay((d, i) => i * 15)
-    .attr('height', 0)
-    .attr('y', () => this.height);
-  }
+
 
   updateData(city) {
-    this.animateOut();
-    this.chart.selectAll('.x-axis').remove();
-    this.file = `data/${city}_categories_reviews.tsv`;
-    this.chart.selectAll('.bar').remove();
-    this.createBars();
+    let bars = [...this.container.querySelectorAll('.bar')].reverse();
+
+   TweenMax.staggerTo(bars, 0.11, {
+      y: this.height,
+      scaleY: 0,
+      opacity: 0,
+      ease: Sine.easeIn,
+    }, 0.04, () => {
+      this.chart.selectAll('.x-axis').remove();
+      this.file = `data/${city}_categories_reviews.tsv`;
+      this.chart.selectAll('.bar').remove();
+      this.createBars();
+    });
   }
 
   createAxis(xScale) {
@@ -92,7 +93,7 @@ export default class BarChart {
   toggleCategory(category, value) {
     const el = this.chart.selectAll('.bar')
       .filter(d => d.categories === category);
-    if (value === 'show') {
+    if (value === 'show' && !el.empty()) {
       el.attr('fill', '#00b8d4');
       this.tip.show(el.datum(), el.node());
     } else {
@@ -140,7 +141,6 @@ export default class BarChart {
         .data(data)
         .enter().append('rect')
         .attr('class', 'bar')
-        .attr('transform-origin', '100% 100%')
         .attr('y', height)
         .attr('height', 0)
         .attr('fill', d => d.color = colorScale(d.count))

@@ -48,6 +48,24 @@
     }
   }
 
+  &__yelp {
+    position: absolute;
+    left: 30px;
+    bottom: 0;
+    color: #999;
+    letter-spacing: 0.05em;
+    line-height: 70px;
+    font-size: 16px;
+    
+    &:hover {
+      color: #888;
+    }
+
+    img {
+      margin-bottom: 10px;
+    }
+  }
+
   @include mq($until: lg) {
     &__navigation {
       text-align: center;
@@ -58,6 +76,11 @@
       width: 20%;
       margin: 10px;
       display: inline-block;
+    }
+
+    &__yelp {
+      bottom: initial;
+      top: 0;
     }
   }
 

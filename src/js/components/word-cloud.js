@@ -5,7 +5,12 @@ import * as d3Ease from 'd3-ease';
 import bindAll from '../utils/bindAll';
 
 export default class WordCloud {
-  constructor({ container, city, reviewStars, colors }) {
+  constructor({
+    container,
+    city,
+    reviewStars,
+    colors
+  }) {
     this.file = `data/review_words_${city}_${reviewStars}_star.json`;
     this.reviewStars = reviewStars;
     this.colors = colors;
@@ -28,9 +33,17 @@ export default class WordCloud {
   }
 
   updateData(city) {
-    this.file = `data/review_words_${city}_${this.reviewStars}_star.json`;
-    d3.select(this.container).selectAll('svg').remove();
-    this.init();
+    let textEl = this.container.querySelectorAll('text');
+
+    TweenMax.set(textEl, {transformOrigin: `50% 50%`});
+    TweenMax.staggerTo(textEl, 0.05, {
+      scale: 0,
+      ease: Sine.easeIn,
+    }, 0.01, () => {
+      this.file = `data/review_words_${city}_${this.reviewStars}_star.json`;
+      d3.select(this.container).selectAll('svg').remove();
+      this.init();
+    });
   }
 
   createTip() {

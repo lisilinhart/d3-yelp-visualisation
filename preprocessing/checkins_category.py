@@ -5,11 +5,6 @@ import sys
 import csv
 import json
 import operator
-from nltk.stem import WordNetLemmatizer
-
-STARS = 5
-CITY = "edinburgh"
-LIMIT = 100
 
 def read_from_file(filename):
   data = []
@@ -61,13 +56,3 @@ if __name__ == "__main__":
     for category, count in reversed(sorted(checkins_by_category.items(), key = operator.itemgetter(1))):
       term_writer.writerow([unicode(category).encode("utf-8"), count])
 
-  # jsonData = []
-  # counter = 0
-  # for term, count in reversed(sorted(terms.items(), key = operator.itemgetter(1))):
-  #   jsonData.append({ "text": term, "size": count })
-  #   counter += 1
-  #   if counter >= LIMIT:
-  #     break
-
-  # with open("review_words_" + CITY + "_" + str(STARS) + "_star.json", "w") as f:
-  #   json.dump(jsonData, f)

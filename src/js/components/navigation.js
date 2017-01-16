@@ -1,6 +1,11 @@
 export default class Navigation {
   constructor() {
     this.links = [...document.querySelectorAll('nav a')];
+    this.heading = document.querySelector('.sidebar__heading');
+    this.yelp = document.querySelector('.sidebar__yelp');
+
+    TweenMax.set([this.links, this.heading, this.yelp], { autoAlpha: 0 });
+
     this.listen();
   }
 
