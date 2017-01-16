@@ -23,12 +23,12 @@ if __name__ == "__main__":
   business_categories = {}
   business_ids = read_from_file(CITY + "_businesses.tsv")
 
-  with open("yelp_academic_dataset_business.json") as businesses:
+  with open("./data/yelp_academic_dataset_business.json") as businesses:
     for index, r in enumerate(businesses):
       business = json.loads(r)
       business_categories[business["business_id"]] = business["categories"]
 
-  with open("yelp_academic_dataset_checkin.json") as checkins:
+  with open("./data/yelp_academic_dataset_checkin.json") as checkins:
     for index, r in enumerate(checkins):
       checkin = json.loads(r)
 
@@ -51,8 +51,7 @@ if __name__ == "__main__":
             checkins_by_category[cat] = checkin_count
 
 
-  with open(CITY + "_checkins_by_category.tsv", "w") as file:
+  with open("./output/" + CITY + "_checkins_by_category.tsv", "w") as file:
     term_writer = csv.writer(file, delimiter="\t")
     for category, count in reversed(sorted(checkins_by_category.items(), key = operator.itemgetter(1))):
       term_writer.writerow([unicode(category).encode("utf-8"), count])
-
