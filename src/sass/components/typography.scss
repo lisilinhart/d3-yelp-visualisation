@@ -9,4 +9,12 @@ body {
     font-weight: 400;
     opacity: 0.6;
   }
+
+  .color-positive {
+    color: $color-positive;
+  }
+
+  .color-negative {
+    color: $color-negative;
+  }
 }

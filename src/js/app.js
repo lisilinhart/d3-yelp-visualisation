@@ -13,6 +13,7 @@ class Application {
     this.height = window.innerHeight;
     this.container = document.querySelector('#app');
     this.colors = ['#C9E4CA', '#87BBA2', '#55828B', '#3B6064', '#364958'];
+    this.colorsNegative = ['#FF9996', '#FC716C', '#E55752', '#C4302B', '#93221F'];
     // this.colors = ['#220901', '#621708', '#941B0C', '#BC3908', '#F6AA1C'];
     // this.colors = ['#0D1B2A', '#1B263B', '#415A77', '#778DA9', '#656D77'];
 
@@ -37,7 +38,7 @@ class Application {
       city: 'edinburgh',
       reviewStars: 1,
       container: this.container.querySelector('.word-cloud-negative'),
-      colors: this.colors,
+      colors: this.colorsNegative,
     });
 
     this.donutChart = new DonutChart({

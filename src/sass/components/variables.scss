@@ -11,15 +11,16 @@ $enable-flex: true;
 $color-list: #364958, #3B6064, #55828B, #87BBA2, #C9E4CA;
 $axis-color: #999;
 $svg-hover-color: #00b8d4;
+$color-positive: nth($color-list, 4);
+$color-negative: #EA453F;
 
 // fonts
-$font-family-base: 'Fira Sans Extra Condensed',Futura,"Trebuchet MS",Arial,sans-serif;
+$font-family-base: 'Fira Sans Extra Condensed', Futura, 'Trebuchet MS', Arial, sans-serif;
 
 // links
-$link-color:            #fff;
-$link-hover-color:      $link-color;
+$link-color: #fff;
+$link-hover-color: $link-color;
 $link-hover-decoration: none;
-
 
 // sass-mq
 $mq-breakpoints: $grid-breakpoints;
