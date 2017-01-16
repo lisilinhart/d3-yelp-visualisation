@@ -56,7 +56,7 @@
     letter-spacing: 0.05em;
     line-height: 70px;
     font-size: 16px;
-    
+
     &:hover {
       color: #888;
     }
@@ -79,8 +79,7 @@
     }
 
     &__yelp {
-      bottom: initial;
-      top: 0;
+      display: none;
     }
   }
 
