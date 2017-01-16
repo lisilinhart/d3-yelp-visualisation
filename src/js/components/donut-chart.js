@@ -89,26 +89,23 @@ export default class DonutChart {
       const minValue = d3.min(this.data, d => d.count);
 
       const scale = d3.scaleLinear()
-      .domain([minValue - minValue * 0.4, maxValue])
-      .range([0, 1]);
+        .domain([minValue - (minValue * 0.4), maxValue])
+        .range([0, 1]);
 
       const pie = d3.pie()
-        .value((d) => d.count)
+        .value(d => d.count)
         .padAngle(this.padding)
-        .sort(function(a, b) { return .5 - Math.random() })
-        (this.data);
+        .sort(() => 0.5 - Math.random())(this.data);
 
       const arc = d3.arc()
       .innerRadius(innerRadius)
-      .outerRadius(function (d) {
-        return (radius - innerRadius) * (scale(d.data.count)) + innerRadius;
-      });
+      .outerRadius(d => ((radius - innerRadius) * (scale(d.data.count))) + innerRadius);
 
       const colorScale = d3.scaleLinear()
-      .domain([minValue,maxValue* 0.25,maxValue* 0.5, maxValue* 0.75,maxValue])
+      .domain([minValue, maxValue * 0.25, maxValue * 0.5, maxValue * 0.75, maxValue])
       .range(this.colors);
 
-      const path = this.chart.selectAll('.solidArc')
+      this.chart.selectAll('.solidArc')
         .data(pie)
         .enter().append('path')
         .attr('fill', d => d.color = colorScale(d.data.count))
@@ -120,7 +117,7 @@ export default class DonutChart {
         .transition()
         .duration(1000)
         .ease(d3Ease.easeSinOut)
-        .delay((d,i) => i * 100)
+        .delay((d, i) => i * 100)
         .attr('transform', 'scale(1)');
     });
   }

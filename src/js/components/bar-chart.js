@@ -91,7 +91,7 @@ export default class BarChart {
 
   toggleCategory(category, value) {
     const el = this.chart.selectAll('.bar')
-    .filter(d => d.categories === category);
+      .filter(d => d.categories === category);
     if (value === 'show') {
       el.attr('fill', '#00b8d4');
       this.tip.show(el.datum(), el.node());
@@ -126,7 +126,8 @@ export default class BarChart {
       const colorScale = d3.scaleLinear()
         .domain([0, maxValue * 0.25, maxValue * 0.5, maxValue * 0.75, maxValue])
         .interpolate(d3.interpolateHcl)
-        .range([d3.rgb(this.colors[0]),
+        .range([
+          d3.rgb(this.colors[0]),
           d3.rgb(this.colors[1]),
           d3.rgb(this.colors[2]),
           d3.rgb(this.colors[3]),
@@ -135,14 +136,14 @@ export default class BarChart {
 
       this.createAxis(xScale);
 
-      const chartBars = this.chart.selectAll('.bar')
+      this.chart.selectAll('.bar')
         .data(data)
         .enter().append('rect')
         .attr('class', 'bar')
         .attr('transform-origin', '100% 100%')
-        .attr('y', d => height)
-        .attr('height', d => 0)
-        .attr('fill',  d => d.color = colorScale(d.count))
+        .attr('y', height)
+        .attr('height', 0)
+        .attr('fill', d => d.color = colorScale(d.count))
         .attr('x', d => xScale(d.categories))
         .attr('width', xScale.bandwidth())
         .on('mouseover', this.chartHover)

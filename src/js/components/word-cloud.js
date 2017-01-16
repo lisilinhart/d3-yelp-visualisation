@@ -105,7 +105,7 @@ export default class WordCloud {
       .transition()
       .duration(1000)
       .ease(d3Ease.easeBackOut)
-      .delay((d,i) => i * 15)
+      .delay((d, i) => i * 15)
       .attr('transform', d => `scale(1) translate(${[d.x, d.y]}) rotate(${d.rotate})`);
 
     this.chart.call(this.tip);
