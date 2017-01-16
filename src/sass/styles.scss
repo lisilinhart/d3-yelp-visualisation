@@ -1,6 +1,3 @@
-// fonts
-@import 'components/fonts';
-
 // variables
 @import 'components/variables';
 @import '../../node_modules/bootstrap/scss/variables';
@@ -15,6 +12,7 @@
 @import '../../node_modules/sass-mq/mq';
 
 // components
+@import 'components/typography';
 @import 'components/main';
 @import 'components/sidebar';
 @import 'components/chart-container';

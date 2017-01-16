@@ -1,11 +1,11 @@
 import * as d3 from 'd3';
 import d3Tip from 'd3-tip';
-import bindAll from '../utils/bindAll';
 import * as d3Ease from 'd3-ease';
+import bindAll from '../utils/bindAll';
 
 export default class DonutChart {
   constructor({ data, container, city, colors }) {
-    this.file = `../data/${city}_checkins_by_category.tsv`;
+    this.file = `data/${city}_checkins_by_category.tsv`;
     this.data = data;
     this.colors = colors;
     this.container = container;
@@ -39,7 +39,7 @@ export default class DonutChart {
 
   updateData(city) {
     this.chart.selectAll('path').remove();
-    this.file = `../data/${city}_checkins_by_category.tsv`;
+    this.file = `data/${city}_checkins_by_category.tsv`;
     this.createSlices(this.radius, this.innerRadius);
   }
 
@@ -49,7 +49,7 @@ export default class DonutChart {
       .offset([-10, 0])
       .html(d => `
         <span class="d3-tip-heading">${d.data.category}</span>
-        <span class="d3-tip-number">${d.data.count}</span>
+        <span class="d3-tip-number">${d.data.count.toLocaleString()}</span>
       `);
 
     this.chart.call(this.tip);
@@ -57,23 +57,21 @@ export default class DonutChart {
 
   chartHover(e) {
     window.emitter.emit('toggleCategory', e.data.category, 'show');
-    this.tip.show(e);
   }
 
   chartHoverEnd(e) {
     window.emitter.emit('toggleCategory', e.data.category, 'hide');
-    this.tip.hide();
   }
 
   toggleCategory(category, value) {
+    const el = this.chart.selectAll('.arc')
+    .filter(d => d.data.category === category);
     if (value === 'show') {
-      this.chart.selectAll('.arc')
-        .filter(d => d.data.category === category)
-        .attr('fill', '#00b8d4');
+      el.attr('fill', '#00b8d4');
+      this.tip.show(el.datum(), el.node());
     } else {
-      this.chart.selectAll('.arc')
-        .filter(d => d.data.category === category)
-        .attr('fill', d => d.color);
+      el.attr('fill', d => d.color);
+      this.tip.hide();
     }
   }
 
@@ -91,26 +89,23 @@ export default class DonutChart {
       const minValue = d3.min(this.data, d => d.count);
 
       const scale = d3.scaleLinear()
-      .domain([minValue - minValue * 0.4, maxValue])
-      .range([0, 1]);
+        .domain([minValue - (minValue * 0.4), maxValue])
+        .range([0, 1]);
 
       const pie = d3.pie()
-        .value((d) => d.count)
+        .value(d => d.count)
         .padAngle(this.padding)
-        .sort(function(a, b) { return .5 - Math.random() })
-        (this.data);
+        .sort(() => 0.5 - Math.random())(this.data);
 
       const arc = d3.arc()
       .innerRadius(innerRadius)
-      .outerRadius(function (d) {
-        return (radius - innerRadius) * (scale(d.data.count)) + innerRadius;
-      });
+      .outerRadius(d => ((radius - innerRadius) * (scale(d.data.count))) + innerRadius);
 
       const colorScale = d3.scaleLinear()
-      .domain([minValue,maxValue* 0.25,maxValue* 0.5, maxValue* 0.75,maxValue])
+      .domain([minValue, maxValue * 0.25, maxValue * 0.5, maxValue * 0.75, maxValue])
       .range(this.colors);
 
-      const path = this.chart.selectAll('.solidArc')
+      this.chart.selectAll('.solidArc')
         .data(pie)
         .enter().append('path')
         .attr('fill', d => d.color = colorScale(d.data.count))
@@ -120,9 +115,9 @@ export default class DonutChart {
         .on('mouseover', this.chartHover)
         .on('mouseout', this.chartHoverEnd)
         .transition()
-        .duration(1000)
+        .duration(500)
         .ease(d3Ease.easeSinOut)
-        .delay((d,i) => i * 100)
+        .delay((d, i) => i * 100)
         .attr('transform', 'scale(1)');
     });
   }

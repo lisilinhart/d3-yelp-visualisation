@@ -2,19 +2,21 @@ import * as d3 from 'd3';
 import cloud from 'd3-cloud';
 import d3Tip from 'd3-tip';
 import * as d3Ease from 'd3-ease';
+import bindAll from '../utils/bindAll';
 
 export default class WordCloud {
   constructor({ container, city, reviewStars, colors }) {
-    this.file = `../data/review_words_${city}_${reviewStars}_star.json`;
+    this.file = `data/review_words_${city}_${reviewStars}_star.json`;
     this.reviewStars = reviewStars;
     this.colors = colors;
     this.container = container;
     this.width = this.container.offsetWidth;
     this.height = this.container.offsetHeight;
 
-    window.emitter.on('updateCharts', this.updateData.bind(this));
+    bindAll(this, ['updateData', 'toggleWord', 'wordHover', 'wordHoverEnd']);
+    window.emitter.on('updateCharts', this.updateData);
+    window.emitter.on('toggleWord', this.toggleWord);
     this.init();
-    console.log(d3Ease);
   }
 
   init() {
@@ -26,7 +28,7 @@ export default class WordCloud {
   }
 
   updateData(city) {
-    this.file = `../data/review_words_${city}_${this.reviewStars}_star.json`;
+    this.file = `data/review_words_${city}_${this.reviewStars}_star.json`;
     d3.select(this.container).selectAll('svg').remove();
     this.init();
   }
@@ -37,8 +39,28 @@ export default class WordCloud {
       .offset([-10, 0])
       .html(d => `
         <span class="d3-tip-heading">Word Occurence</span>
-        <span class="d3-tip-number">${d.wordcount}</span>
+        <span class="d3-tip-number">${d.wordcount.toLocaleString()}</span>
       `);
+  }
+
+  wordHover(e) {
+    window.emitter.emit('toggleWord', e.text, 'show');
+  }
+
+  wordHoverEnd(e) {
+    window.emitter.emit('toggleWord', e.text, 'hide');
+  }
+
+  toggleWord(word, value) {
+    const el = d3.select(this.container).selectAll('text')
+      .filter(d => d.text === word);
+    if (value === 'show' && !el.empty()) {
+      el.style('fill', '#00b8d4');
+      this.tip.show(el.datum(), el.node());
+    } else {
+      el.style('fill', d => d.color);
+      this.tip.hide();
+    }
   }
 
   processWords() {
@@ -83,7 +105,6 @@ export default class WordCloud {
   createCloud(words) {
     const colorScale = this.colorScale;
     const opacityScale = this.opacityScale;
-    const tip = this.tip;
 
     this.chart = d3.select(this.container)
       .append('svg')
@@ -97,16 +118,16 @@ export default class WordCloud {
       .enter()
       .append('text')
       .style('font-size', d => `${d.size}px`)
-      .style('fill', d => colorScale(d.size))
+      .style('fill', d => d.color = colorScale(d.size))
       .style('opacity', d => opacityScale(d.size))
       .attr('transform', d => `scale(0) translate(${[d.x, d.y]}) rotate(${d.rotate})`)
       .text(d => d.text)
-      .on('mouseover', tip.show)
-      .on('mouseout', tip.hide)
+      .on('mouseover', this.wordHover)
+      .on('mouseout', this.wordHoverEnd)
       .transition()
-      .duration(800)
+      .duration(1000)
       .ease(d3Ease.easeBackOut)
-      .delay((d,i) => i * 30)
+      .delay((d, i) => i * 15)
       .attr('transform', d => `scale(1) translate(${[d.x, d.y]}) rotate(${d.rotate})`);
 
     this.chart.call(this.tip);

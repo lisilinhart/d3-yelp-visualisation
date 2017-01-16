@@ -1,11 +1,11 @@
 import * as d3 from 'd3';
 import d3Tip from 'd3-tip';
-import bindAll from '../utils/bindAll';
 import * as d3Ease from 'd3-ease';
+import bindAll from '../utils/bindAll';
 
 export default class BarChart {
   constructor({ data, container, city, colors }) {
-    this.file = `../data/${city}_categories_reviews.tsv`;
+    this.file = `data/${city}_categories_reviews.tsv`;
     this.data = data;
     this.colors = colors;
     this.container = container;
@@ -29,7 +29,7 @@ export default class BarChart {
   init() {
     this.chart = d3.select(this.container)
       .append('svg')
-      .attr('viewBox', `0 0 ${this.width + 10} ${this.height + 80}`);
+      .attr('viewBox', `0 0 ${this.width} ${this.height + 1}`);
     this.listeners();
   }
 
@@ -45,7 +45,7 @@ export default class BarChart {
   updateData(city) {
     this.animateOut();
     this.chart.selectAll('.x-axis').remove();
-    this.file = `../data/${city}_categories_reviews.tsv`;
+    this.file = `data/${city}_categories_reviews.tsv`;
     this.chart.selectAll('.bar').remove();
     this.createBars();
   }
@@ -74,8 +74,8 @@ export default class BarChart {
       .attr('class', 'd3-tip')
       .offset([-10, 0])
       .html((d) => {
-        return `<span class="d3-tip-heading">Reviews</span>
-                <span class="d3-tip-number">${d.count}</span>`;
+        return `<span class="d3-tip-heading">${d.categories}</span>
+                <span class="d3-tip-number">${d.count.toLocaleString()}</span>`;
       });
 
     this.chart.call(this.tip);
@@ -83,23 +83,21 @@ export default class BarChart {
 
   chartHover(e) {
     window.emitter.emit('toggleCategory', e.categories, 'show');
-    this.tip.show(e);
   }
 
   chartHoverEnd(e) {
     window.emitter.emit('toggleCategory', e.categories, 'hide');
-    this.tip.hide();
   }
 
   toggleCategory(category, value) {
+    const el = this.chart.selectAll('.bar')
+      .filter(d => d.categories === category);
     if (value === 'show') {
-      this.chart.selectAll('.bar')
-        .filter(d => d.categories === category)
-        .attr('fill', '#00b8d4');
+      el.attr('fill', '#00b8d4');
+      this.tip.show(el.datum(), el.node());
     } else {
-      this.chart.selectAll('.bar')
-        .filter(d => d.categories === category)
-        .attr('fill', d => d.color);
+      el.attr('fill', d => d.color);
+      this.tip.hide();
     }
   }
 
@@ -128,7 +126,8 @@ export default class BarChart {
       const colorScale = d3.scaleLinear()
         .domain([0, maxValue * 0.25, maxValue * 0.5, maxValue * 0.75, maxValue])
         .interpolate(d3.interpolateHcl)
-        .range([d3.rgb(this.colors[0]),
+        .range([
+          d3.rgb(this.colors[0]),
           d3.rgb(this.colors[1]),
           d3.rgb(this.colors[2]),
           d3.rgb(this.colors[3]),
@@ -137,22 +136,22 @@ export default class BarChart {
 
       this.createAxis(xScale);
 
-      const chartBars = this.chart.selectAll('.bar')
+      this.chart.selectAll('.bar')
         .data(data)
         .enter().append('rect')
         .attr('class', 'bar')
         .attr('transform-origin', '100% 100%')
-        .attr('y', d => height)
-        .attr('height', d => 0)
-        .attr('fill',  d => d.color = colorScale(d.count))
+        .attr('y', height)
+        .attr('height', 0)
+        .attr('fill', d => d.color = colorScale(d.count))
         .attr('x', d => xScale(d.categories))
         .attr('width', xScale.bandwidth())
         .on('mouseover', this.chartHover)
         .on('mouseout', this.chartHoverEnd)
         .transition()
-        .duration(1800)
+        .duration(500)
         .ease(d3Ease.easeBackOut)
-        .delay((d, i) => i * 80)
+        .delay((d, i) => (i * 100) + 300)
         .attr('height', d => yScale(d.count))
         .attr('y', d => height - yScale(d.count));
     });
