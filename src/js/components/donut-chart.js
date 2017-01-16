@@ -49,7 +49,7 @@ export default class DonutChart {
       .offset([-10, 0])
       .html(d => `
         <span class="d3-tip-heading">${d.data.category}</span>
-        <span class="d3-tip-number">${d.data.count}</span>
+        <span class="d3-tip-number">${d.data.count.toLocaleString()}</span>
       `);
 
     this.chart.call(this.tip);
@@ -57,23 +57,21 @@ export default class DonutChart {
 
   chartHover(e) {
     window.emitter.emit('toggleCategory', e.data.category, 'show');
-    this.tip.show(e);
   }
 
   chartHoverEnd(e) {
     window.emitter.emit('toggleCategory', e.data.category, 'hide');
-    this.tip.hide();
   }
 
   toggleCategory(category, value) {
+    const el = this.chart.selectAll('.arc')
+    .filter(d => d.data.category === category);
     if (value === 'show') {
-      this.chart.selectAll('.arc')
-        .filter(d => d.data.category === category)
-        .attr('fill', '#00b8d4');
+      el.attr('fill', '#00b8d4');
+      this.tip.show(el.datum(), el.node());
     } else {
-      this.chart.selectAll('.arc')
-        .filter(d => d.data.category === category)
-        .attr('fill', d => d.color);
+      el.attr('fill', d => d.color);
+      this.tip.hide();
     }
   }
 

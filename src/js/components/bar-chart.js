@@ -29,7 +29,7 @@ export default class BarChart {
   init() {
     this.chart = d3.select(this.container)
       .append('svg')
-      .attr('viewBox', `0 0 ${this.width + 10} ${this.height + 80}`);
+      .attr('viewBox', `0 0 ${this.width} ${this.height + 1}`);
     this.listeners();
   }
 
@@ -74,8 +74,8 @@ export default class BarChart {
       .attr('class', 'd3-tip')
       .offset([-10, 0])
       .html((d) => {
-        return `<span class="d3-tip-heading">Reviews</span>
-                <span class="d3-tip-number">${d.count}</span>`;
+        return `<span class="d3-tip-heading">${d.categories}</span>
+                <span class="d3-tip-number">${d.count.toLocaleString()}</span>`;
       });
 
     this.chart.call(this.tip);
@@ -83,23 +83,21 @@ export default class BarChart {
 
   chartHover(e) {
     window.emitter.emit('toggleCategory', e.categories, 'show');
-    this.tip.show(e);
   }
 
   chartHoverEnd(e) {
     window.emitter.emit('toggleCategory', e.categories, 'hide');
-    this.tip.hide();
   }
 
   toggleCategory(category, value) {
+    const el = this.chart.selectAll('.bar')
+    .filter(d => d.categories === category);
     if (value === 'show') {
-      this.chart.selectAll('.bar')
-        .filter(d => d.categories === category)
-        .attr('fill', '#00b8d4');
+      el.attr('fill', '#00b8d4');
+      this.tip.show(el.datum(), el.node());
     } else {
-      this.chart.selectAll('.bar')
-        .filter(d => d.categories === category)
-        .attr('fill', d => d.color);
+      el.attr('fill', d => d.color);
+      this.tip.hide();
     }
   }
 
